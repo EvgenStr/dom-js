@@ -43,8 +43,8 @@ const form = document.getElementById("form");
 const arr = [];
 
 form.addEventListener('submit', (event) => {
-  event.preventDefault();
-  
+  event.preventDefault()
+  console.log( event.target.reportValidity())
   const { target, target: { elements: { test: { value } } } } = event;
   arr.push(value);
   target.reset();
@@ -60,4 +60,5 @@ form.addEventListener('submit', (event) => {
   li.append(del);
   const ul = document.getElementById('list');
   ul.append(li);
-  })
+  
+})
