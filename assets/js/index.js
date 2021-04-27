@@ -43,7 +43,8 @@ const form = document.getElementById("form");
 const arr = [];
 
 form.addEventListener('submit', (event) => {
-  event.preventDefault()
+  event.preventDefault();
+  
   const { target, target: { elements: { test: { value } } } } = event;
   arr.push(value);
   target.reset();
