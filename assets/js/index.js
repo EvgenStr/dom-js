@@ -68,7 +68,7 @@ function createCardImage(link) {
 
   return img;
 }
-function createImageWrapper({ firstName, profilePicture }) {
+function createImageWrapper({ firstName,lastName, profilePicture }) {
   const imageWrapper = createElement(
     "div",
     {
@@ -77,7 +77,7 @@ function createImageWrapper({ firstName, profilePicture }) {
     createElement(
       "div",
       { classNames: ["initials"] },
-      document.createTextNode(firstName[0] || "")
+      document.createTextNode(`${firstName[0]} ${lastName[0]}`|| "")
     ),
     createCardImage(profilePicture)
   );
