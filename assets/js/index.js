@@ -1,64 +1,167 @@
 "use strict";
-// const [button1] = document.getElementsByTagName("button");
-// button1.addEventListener("click", (e) => {
-//   console.log(e.target);
-// });
-// const img = document.querySelector(".art > img");
-// const h1 = document.querySelector(".art > h1");
-// const span = document.querySelector(".art > p > span");
-// console.log(img, h1, span);
-// function createAdder(n) {
-//   return (m) => {
-//     return (n += m);
-//   };
-// }
-// const adder = createAdder(10);
-// console.log(adder(10));
-// console.log(adder(50));
-// console.log(adder(100));
+const socialLinks = ["www.facebook.com", "www.instagram.com", "twitter.com"];
+const cardContainer = document.getElementById("root");
 
-// const [btn1, btn2] = document.querySelectorAll("button");
-// btn1.addEventListener("mouseenter", change);
-// btn2.addEventListener("mouseenter", change);
+const cardElements = responseData.map((user) => createUserCard(user));
+cardContainer.append(...cardElements);
 
-// function change(e) {
-//   const temp = btn2.innerText;
-//   btn2.innerText = btn1.innerText;
-//   btn1.innerText = temp;
-// }
-
-const buttons = document.querySelectorAll("button");
-const setColor = ({ target:
-  { dataset, parentNode }
-}) => {
-  parentNode.style.backgroundColor = dataset.color;
-};
-
-for (const btn of buttons) {
-  btn.addEventListener("click", setColor);
+function createUserCard(user) {
+  return createElement(
+    "li",
+    { classNames: ["cardWrapper"] },
+    createElement(
+      "article",
+      { classNames: ["cardContainer"] },
+      createImageWrapper(user),
+      createContentWrapper(user)
+    )
+  );
 }
 
+/**
+ *
+ * @param {string} tagName
+ * @param {object} options
+ * @param {string[]} options.classNames - css classes
+ * @param {object} options.handlers - event handlers
+ * @param {object} options.attributes - attributes
+ * @param  {...Node} children
+ * @returns {HTMLElement}
+ */
+function createElement(
+  tagName,
+  { classNames = [], handlers = {}, attributes = {} } = {},
+  ...children
+) {
+  const elem = document.createElement(tagName);
+  elem.classList.add(...classNames);
+  /*
+  attributes object example
+  {
+    src: "https://example.com",
+    value: "text",
+    name: "textInput",
+  }
+  */
+  for (const [attrName, attrValue] of Object.entries(attributes)) {
+    elem.setAttribute(attrName, attrValue);
+  }
 
-const form = document.getElementById("form");
-const arr = [];
+  for (const [eventType, eventHandler] of Object.entries(handlers)) {
+    elem.addEventListener(eventType, eventHandler);
+  }
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault()
-  console.log( event.target.reportValidity())
-  const { target, target: { elements: { test: { value } } } } = event;
-  arr.push(value);
-  target.reset();
-  const li = document.createElement('li');
-  li.innerText = value;
-  const del = document.createElement('button');
-  del.innerText = "delete";
-  del.addEventListener('click', (e) => {
-    arr.splice(arr.indexOf(e.target.parentNode.childNodes[0].data), 1);
-    console.dir(e.target.parentNode.childNodes[0].data)
-    e.target.parentNode.remove()
-  })
-  li.append(del);
-  const ul = document.getElementById('list');
-  ul.append(li);
-  
-})
+  elem.append(...children);
+  return elem;
+}
+
+function createCardImage(link) {
+  const img = createElement("img", {
+    classNames: ["cardImage"],
+    handlers: {
+      error: handleImageError,
+      load: handleImageLoad,
+    },
+  });
+  img.src = link;
+  img.hidden = true;
+
+  return img;
+}
+function createImageWrapper({ firstName, profilePicture }) {
+  const imageWrapper = createElement(
+    "div",
+    {
+      classNames: ["cardImageWrapper"],
+    },
+    createElement(
+      "div",
+      { classNames: ["initials"] },
+      document.createTextNode(firstName[0] || "")
+    ),
+    createCardImage(profilePicture)
+  );
+  imageWrapper.style.backgroundColor = stringToColor(firstName || "");
+  return imageWrapper;
+}
+
+function createContentWrapper({ firstName, lastName, contacts }) {
+  return createElement(
+    "div",
+    {
+      classNames: ["contentWrapper"],
+    },
+    createElement(
+      "h3",
+      { classNames: ["cardName"] },
+      document.createTextNode(firstName || "")
+    ),
+    createElement(
+      "p",
+      { classNames: ["cardLastName"] },
+      document.createTextNode(lastName || "")
+    ),
+    createElement(
+      "div",
+      {
+        classNames: ["cardSocialLinks"],
+      },
+      ...createSocialLinks(contacts, socialLinks)
+    )
+  );
+}
+
+function createSocialLinks(contacts = [], social = []) {
+  const result = [];
+  if (contacts.length <= 0) return;
+  for (const link of contacts) {
+    const url = new URL(link);
+    if (social.includes(url.host)) {
+      result.push(createLink(url));
+    }
+  }
+  return result;
+}
+
+function createLink(url) {
+  const a = document.createElement("a");
+  const icon = document.createElement("i");
+  let className = url.host.includes("facebook")
+    ? "fa-facebook-f"
+    : url.host.includes("twitter")
+    ? "fa-twitter"
+    : "fa-instagram";
+  icon.classList.add("fab", className);
+  a.href = url;
+  a.append(icon);
+  return a;
+}
+
+/*
+  EVENT HANDLERS
+*/
+
+function handleImageError({ target }) {
+  target.remove();
+}
+
+function handleImageLoad({ target }) {
+  target.hidden = false;
+}
+
+/*
+  UTILS
+*/
+
+function stringToColor(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let colour = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    colour += ("00" + value.toString(16)).substr(-2);
+  }
+  return colour;
+}
