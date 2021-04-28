@@ -82,7 +82,7 @@ function createImageWrapper({ firstName, lastName, profilePicture }) {
     createElement(
       "div",
       { classNames: ["initials"] },
-      document.createTextNode((firstName[0] && lastName[0]) || "")
+      document.createTextNode(firstName[0] + lastName[0] || "")
     ),
     createCardImage(profilePicture)
   );
