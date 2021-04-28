@@ -16,7 +16,7 @@
 }
 
 .cardWrapper {
-  border: 4px solid;
+  /* border: 4px solid; */
   margin: 2rem 1rem;
 }
 
@@ -52,15 +52,41 @@
   color: white;
 }
 
-.contentWrapper{
-  padding:  0 10px 10px;
+.contentWrapper {
+  padding: 0 10px 10px;
 }
 
-.cardName{
+.cardName {
   font-weight: bold;
   margin: 1rem 0;
 }
 
-.cardName:empty::after,.cardLastName:empty::after{
+.cardName:empty::after,
+.cardLastName:empty::after {
   content: "Unknown";
 }
+.cardSocialLinks {
+  display: flex;
+  justify-content: start;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+.cardSocialLinks a {
+  text-decoration: none;
+  color: #c6cacc;
+  font-size: 18px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid #e8ecee;
+  border-radius: 2px;
+  margin-right: 3px;
+}
+.cardSocialLinks a:hover {
+  background-color: #e84545;
+  border-color: #e84545;
+  color: #fff;
+  transition: background-color, color, 0.4s;
+}
+
