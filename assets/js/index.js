@@ -1,6 +1,11 @@
 "use strict";
 const socialLinks = ["www.facebook.com", "www.instagram.com", "twitter.com"];
 const cardContainer = document.getElementById("root");
+const socialoptions = {
+  "www.facebook.com": "fa-facebook-f",
+  "twitter.com": "fa-twitter",
+  "www.instagram.com": "fa-instagram",
+}
 
 const cardElements = responseData.map((user) => createUserCard(user));
 cardContainer.append(...cardElements);
@@ -68,7 +73,7 @@ function createCardImage(link) {
 
   return img;
 }
-function createImageWrapper({ firstName,lastName, profilePicture }) {
+function createImageWrapper({ firstName, lastName, profilePicture }) {
   const imageWrapper = createElement(
     "div",
     {
@@ -77,7 +82,7 @@ function createImageWrapper({ firstName,lastName, profilePicture }) {
     createElement(
       "div",
       { classNames: ["initials"] },
-      document.createTextNode(`${firstName[0]} ${lastName[0]}`|| "")
+      document.createTextNode(`${firstName[0]} ${lastName[0]}` || "")
     ),
     createCardImage(profilePicture)
   );
@@ -130,8 +135,8 @@ function createLink(url) {
   let className = url.host.includes("facebook")
     ? "fa-facebook-f"
     : url.host.includes("twitter")
-    ? "fa-twitter"
-    : "fa-instagram";
+      ? "fa-twitter"
+      : "fa-instagram";
   icon.classList.add("fab", className);
   a.href = url;
   a.append(icon);
