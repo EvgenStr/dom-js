@@ -112,7 +112,6 @@ function createSocialLinks(contacts = [], social = {}) {
   if (contacts.length === 0) return;
   for (const link of contacts) {
     const url = new URL(link);
-    // if (social.includes(url.host)) {
     if (Object.keys(social).includes(url.host)) {
       result.push(createLink(url, social));
     }
