@@ -1,7 +1,7 @@
 "use strict";
 const socialLinks = ["www.facebook.com", "www.instagram.com", "twitter.com"];
 const cardContainer = document.getElementById("root");
-const socialoptions = {
+const socialOptions = {
   "www.facebook.com": "fa-facebook-f",
   "twitter.com": "fa-twitter",
   "www.instagram.com": "fa-instagram",
@@ -111,32 +111,35 @@ function createContentWrapper({ firstName, lastName, contacts }) {
       {
         classNames: ["cardSocialLinks"],
       },
-      ...createSocialLinks(contacts, socialLinks)
+      ...createSocialLinks(contacts, socialOptions)
     )
   );
 }
 
-function createSocialLinks(contacts = [], social = []) {
+function createSocialLinks(contacts = [], social = {}) {
   const result = [];
   if (contacts.length === 0) return;
   for (const link of contacts) {
     const url = new URL(link);
-    if (social.includes(url.host)) {
-      result.push(createLink(url));
+    // if (social.includes(url.host)) {
+    if (Object.keys(social).includes(url.host)) {
+      result.push(createLink(url, social));
     }
   }
   return result;
 }
 
-function createLink(url) {
+function createLink(url, social) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
-  //add object form key host:class
-  let className = url.host.includes("facebook")
-    ? "fa-facebook-f"
-    : url.host.includes("twitter")
-      ? "fa-twitter"
-      : "fa-instagram";
+
+  let className = ''
+
+  for (const [key, value] of Object.entries(social)) {
+    if (key === url.host) {
+
+    }
+  }
   icon.classList.add("fab", className);
   a.href = url;
   a.append(icon);
