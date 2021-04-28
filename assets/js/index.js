@@ -1,5 +1,4 @@
 "use strict";
-const socialLinks = ["www.facebook.com", "www.instagram.com", "twitter.com"];
 const cardContainer = document.getElementById("root");
 const socialOptions = {
   "www.facebook.com": "fa-facebook-f",
@@ -24,7 +23,6 @@ function createUserCard(user) {
 }
 
 /**
- *
  * @param {string} tagName
  * @param {object} options
  * @param {string[]} options.classNames - css classes
@@ -40,14 +38,7 @@ function createElement(
 ) {
   const elem = document.createElement(tagName);
   elem.classList.add(...classNames);
-  /*
-  attributes object example
-  {
-    src: "https://example.com",
-    value: "text",
-    name: "textInput",
-  }
-  */
+
   for (const [attrName, attrValue] of Object.entries(attributes)) {
     elem.setAttribute(attrName, attrValue);
   }
