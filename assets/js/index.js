@@ -82,7 +82,7 @@ function createImageWrapper({ firstName, lastName, profilePicture }) {
     createElement(
       "div",
       { classNames: ["initials"] },
-      document.createTextNode(`${firstName[0]} ${lastName[0]}` || "")
+      document.createTextNode((firstName[0] && lastName[0]) || "")
     ),
     createCardImage(profilePicture)
   );
@@ -132,13 +132,10 @@ function createSocialLinks(contacts = [], social = {}) {
 function createLink(url, social) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
-
-  let className = ''
+  let className = '';
 
   for (const [key, value] of Object.entries(social)) {
-    if (key === url.host) {
-
-    }
+    if (key === url.host) className = value;
   }
   icon.classList.add("fab", className);
   a.href = url;
