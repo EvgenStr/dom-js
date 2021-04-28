@@ -113,7 +113,7 @@ function createContentWrapper({ firstName, lastName, contacts }) {
 
 function createSocialLinks(contacts = [], social = []) {
   const result = [];
-  if (contacts.length <= 0) return;
+  if (contacts.length === 0) return;
   for (const link of contacts) {
     const url = new URL(link);
     if (social.includes(url.host)) {
@@ -126,6 +126,7 @@ function createSocialLinks(contacts = [], social = []) {
 function createLink(url) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
+  //add object form key host:class
   let className = url.host.includes("facebook")
     ? "fa-facebook-f"
     : url.host.includes("twitter")
