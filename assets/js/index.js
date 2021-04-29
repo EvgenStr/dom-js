@@ -122,12 +122,13 @@ function createSocialLinks(contacts = [], social = {}) {
 function createLink(url, social) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
-  let className = '';
+  let reg = /(?:www\.|)([\w-]+).*/;
+  let className = url.host.match(reg)[1];
 
-  for (const [key, value] of Object.entries(social)) {
-    if (key === url.host) className = value;
-  }
-  icon.classList.add("fab", className);
+  // for (const [key, value] of Object.entries(social)) {
+  //   if (key === url.host) className = value;
+  // }
+  icon.classList.add("fab", `fa-${className}`);
   a.href = url;
   a.append(icon);
   return a;
@@ -161,3 +162,13 @@ function stringToColor(str) {
   }
   return colour;
 }
+
+const regex = /^[0-9]+$/;//  /^\d+$/
+const regex2 = /^[a-z][a-z0-9]{5,15}$/;
+
+let test = 'https://www.instagram.com/jasonstatham/?hl=ru';
+ let str = test.match(/https?:\/\/(?:www\.|)([\w-]+).*/)
+
+// console.log(str[1])
+
+
