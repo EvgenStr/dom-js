@@ -113,13 +113,13 @@ function createSocialLinks(contacts = [], social = {}) {
   for (const link of contacts) {
     const url = new URL(link);
     if (Object.keys(social).includes(url.host)) {
-      result.push(createLink(url, social));
+      result.push(createLink(url, /*social*/));
     }
   }
   return result;
 }
 
-function createLink(url, social) {
+function createLink(url,/* social*/) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
   let reg = /(?:www\.|)([\w-]+).*/;
@@ -167,7 +167,7 @@ const regex = /^[0-9]+$/;//  /^\d+$/
 const regex2 = /^[a-z][a-z0-9]{5,15}$/;
 
 let test = 'https://www.instagram.com/jasonstatham/?hl=ru';
- let str = test.match(/https?:\/\/(?:www\.|)([\w-]+).*/)
+let str = test.match(/https?:\/\/(?:www\.|)([\w-]+).*/)
 
 // console.log(str[1])
 
