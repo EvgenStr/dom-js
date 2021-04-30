@@ -113,13 +113,13 @@ function createSocialLinks(contacts = [], social = {}) {
   for (const link of contacts) {
     const url = new URL(link);
     if (Object.keys(social).includes(url.host)) {
-      result.push(createLink(url, /*social*/));
+      result.push(createLink(url /*, social*/));
     }
   }
   return result;
 }
 
-function createLink(url,/* social*/) {
+function createLink(url /*, social*/) {
   const a = document.createElement("a");
   const icon = document.createElement("i");
   let reg = /(?:www\.|)([\w-]+).*/;
