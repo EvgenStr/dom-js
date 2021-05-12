@@ -174,4 +174,3 @@ function stringToColor(str) {
   return colour;
 }
 
-
