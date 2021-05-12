@@ -12,8 +12,6 @@ fetch('../../data.json').then(response => response.json()).
     cardContainer.append(...cardElements);
   }).
   catch((e) => console.log(e));
-// const cardElements = responseData.map((user) => createUserCard(user));
-// cardContainer.append(...cardElements);
 
 function createUserCard(user) {
   return createElement(
@@ -59,20 +57,15 @@ function createElement(
 
 function createCardImage(link) {
   const img = createElement("img", {
-    classNames: ["cardImage"],
-    handlers: {
-      // error: handleImageError,
-      // load: handleImageLoad,
-    },
+    classNames: ["cardImage"]
   });
   img.src = link;
   img.hidden = true;
-  loadImage(img).then((i)=>{i.hidden=false}).catch((i)=>i.remove());
-
+  loadImage(img).then(handleImageLoad).catch(handleImageError);
   return img;
 }
-function loadImage(img) {
 
+function loadImage(img) {
   return new Promise((resolve, reject) => {
     img.addEventListener("load", () => {
       resolve(img);
@@ -82,6 +75,7 @@ function loadImage(img) {
     });
   });
 }
+
 function createImageWrapper({ firstName, lastName, profilePicture }) {
   const imageWrapper = createElement(
     "div",
@@ -142,7 +136,6 @@ function createLink(url,/* social*/) {
   const icon = document.createElement("i");
   let reg = /(?:www\.|)([\w-]+).*/;
   let className = url.host.match(reg)[1];
-
   // for (const [key, value] of Object.entries(social)) {
   //   if (key === url.host) className = value;
   // }
@@ -152,20 +145,16 @@ function createLink(url,/* social*/) {
   return a;
 }
 
-
-
-
-
 /*
   EVENT HANDLERS
 */
 
-function handleImageError({ target }) {
-  target.remove();
+function handleImageError(img) {
+  img.remove();
 }
 
-function handleImageLoad({ target }) {
-  target.hidden = false;
+function handleImageLoad(img) {
+  img.hidden = false;
 }
 
 /*
@@ -184,13 +173,5 @@ function stringToColor(str) {
   }
   return colour;
 }
-
-const regex = /^[0-9]+$/;//  /^\d+$/
-const regex2 = /^[a-z][a-z0-9]{5,15}$/;
-
-let test = 'https://www.instagram.com/jasonstatham/?hl=ru';
-let str = test.match(/https?:\/\/(?:www\.|)([\w-]+).*/)
-
-// console.log(str[1])
 
 
