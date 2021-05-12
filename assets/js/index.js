@@ -6,8 +6,14 @@ const socialOptions = {
   "www.instagram.com": "fa-instagram",
 }
 
-const cardElements = responseData.map((user) => createUserCard(user));
-cardContainer.append(...cardElements);
+fetch('../../data.json').then(response => response.json()).
+  then((data) => {
+    const cardElements = data.map((user) => createUserCard(user));
+    cardContainer.append(...cardElements);
+  }).
+  catch((e) => console.log(e));
+// const cardElements = responseData.map((user) => createUserCard(user));
+// cardContainer.append(...cardElements);
 
 function createUserCard(user) {
   return createElement(
@@ -55,14 +61,26 @@ function createCardImage(link) {
   const img = createElement("img", {
     classNames: ["cardImage"],
     handlers: {
-      error: handleImageError,
-      load: handleImageLoad,
+      // error: handleImageError,
+      // load: handleImageLoad,
     },
   });
   img.src = link;
   img.hidden = true;
+  loadImage(img).then((i)=>{i.hidden=false}).catch((i)=>i.remove());
 
   return img;
+}
+function loadImage(img) {
+
+  return new Promise((resolve, reject) => {
+    img.addEventListener("load", () => {
+      resolve(img);
+    });
+    img.addEventListener("error", () => {
+      reject(img);
+    });
+  });
 }
 function createImageWrapper({ firstName, lastName, profilePicture }) {
   const imageWrapper = createElement(
@@ -133,6 +151,10 @@ function createLink(url,/* social*/) {
   a.append(icon);
   return a;
 }
+
+
+
+
 
 /*
   EVENT HANDLERS
